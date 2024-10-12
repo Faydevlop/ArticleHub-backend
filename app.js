@@ -34,7 +34,7 @@ app.use('/user',userRoute)
 
 
 app.get('/',(req,res)=>{
-    res.send('server is running')
+    res.send('server is running successfully')
     
 })
 
