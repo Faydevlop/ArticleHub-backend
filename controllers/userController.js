@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const cloudinary = require('../middlewares/cloudinary');
 const multer = require('multer');
 const jwt = require('jsonwebtoken')
+require('dotenv').config();
+
 
 exports.userDashboard = (req,res)=>{
     res.send('server is running')

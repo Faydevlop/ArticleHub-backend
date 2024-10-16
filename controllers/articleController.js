@@ -291,21 +291,30 @@ exports.addArticle = async (req, res) => {
     }
   }
 
-  exports.deleteArtcle = async(req,res)=>{
+  exports.deleteArticle = async (req, res) => {
     try {
-      const {artId} = req.params;
-
-      const deletedArticle = await Article.findByIdAndDelete(artId)
-
-      if(!deletedArticle){
-        return res.status(400).json({message:'Error deleting article'})
+      const { artId, userId } = req.params;
+  
+      // Find the article by ID
+      const article = await Article.findById(artId);
+  
+      if (!article) {
+        return res.status(404).json({ message: 'Article not found' });
       }
-
-      res.status(200).json({message:'article deleted success'})
-
-
+  
+      // Check if the logged-in user is the author of the article
+      if (article.createdBy.toString() !== userId) {
+        return res.status(403).json({ message: 'You are not authorized to delete this article' });
+      }
+  
+      // Proceed with deletion if authorized
+      await article.deleteOne();
+  
+      res.status(200).json({ message: 'Article deleted successfully' });
+      
     } catch (error) {
       res.status(500).json({ message: 'Server error', error: error.message });
     }
-  }
+  };
+  
   
