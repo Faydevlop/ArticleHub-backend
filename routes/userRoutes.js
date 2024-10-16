@@ -22,7 +22,7 @@ router.put('/update/:userId',upload.single('profilePicture'),userController.edit
 router.get('/getuser/:userId',userController.getUserdata)
 // add articles 
 router.post('/addarticles/:userId', upload.array('images', 10), articleController.addArticle);
-router.put('/editarticle/:artId', upload.array('images', 10), articleController.editArticle); 
+router.put('/editarticle/:artId/:userId', upload.array('images', 10), articleController.editArticle); 
 // get user articles 
 router.get('/getarticles/:userId',articleController.getUserArticles)
 // list articnles based on the user intrests

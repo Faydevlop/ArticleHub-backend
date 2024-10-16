@@ -55,13 +55,20 @@ exports.addArticle = async (req, res) => {
   };
   exports.editArticle = async (req, res) => {
     try {
-        const { artId } = req.params;
+        const { artId ,userId } = req.params;
         const { name, description, categories, existingImages } = req.body;
+
+
+
 
         // Find the article by ID
         const article = await Article.findById(artId);
         if (!article) {
             return res.status(404).json({ message: 'Article not found' });
+        }
+
+        if(article.createdBy.toString() !== userId ){
+          return res.status(400).json({message:'Not Access'});
         }
 
         // Parse existing images from frontend (to track which ones were removed)
