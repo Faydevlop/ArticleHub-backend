@@ -2,6 +2,7 @@ const User = require("../model/userModel");
 const bcrypt = require('bcrypt');
 const cloudinary = require('../middlewares/cloudinary');
 const multer = require('multer');
+const jwt = require('jsonwebtoken')
 
 exports.userDashboard = (req,res)=>{
     res.send('server is running')
@@ -37,9 +38,14 @@ try {
         
     })
 
-    await newUser.save()
+   
 
-    res.status(200).json({message:'User registed Successfully',user:newUser})
+    await newUser.save()
+    const token = jwt.sign({id:newUser._id,email:newUser.email},process.env.JWT_SECRET_KEY,{
+        expiresIn:'1d'
+    })
+
+    res.status(200).json({message:'User registed Successfully',user:newUser,token})
 } catch (error) {
     console.error('Error in user registration:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -91,7 +97,11 @@ exports.userLogin = async(req,res)=>{
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        res.status(200).json({ message: 'Login successful', user });
+        const token = jwt.sign({id:user._id,email:user.email},process.env.JWT_SECRET_KEY,{
+            expiresIn:'1d'
+        })
+
+        res.status(200).json({ message: 'Login successful', user , token});
         
     } catch (error) {
         console.error('Error during login:', error);
