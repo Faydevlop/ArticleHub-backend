@@ -33,7 +33,7 @@ router.get('/article/:artId',articleController.getArticle)
 router.post('/like/:artId/:userId',articleController.likeArticles)
 router.post('/dislike/:artId/:userId',articleController.dislikeArticles)
 router.post('/report/:artId/:userId',articleController.reportArticle)
-router.delete('/delete/:artId/:userId',articleController.deleteArtcle)
+router.delete('/delete/:artId/:userId',articleController.deleteArticle)
 // change password
 router.post('/changePass/:userId',userController.changePassword)
 
